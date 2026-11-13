@@ -31,4 +31,5 @@ android {
 
 dependencies {
     implementation("cz.adaptech.tesseract4android:tesseract4android:4.8.0")
+    implementation("com.google.mlkit:digital-ink-recognition:19.0.0")
 }
