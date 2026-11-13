@@ -26,10 +26,11 @@ android {
     }
     kotlinOptions {
         jvmTarget = "17"
+        freeCompilerArgs += "-Xskip-metadata-version-check"
     }
 }
 
 dependencies {
     implementation("cz.adaptech.tesseract4android:tesseract4android:4.8.0")
-    implementation("com.google.mlkit:digital-ink-recognition:19.0.0")
+    implementation("com.google.mlkit:digital-ink-recognition:18.1.0")
 }
