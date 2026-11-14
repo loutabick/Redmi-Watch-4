@@ -34,8 +34,8 @@ object Ocr {
         var warning: String? = null
         if (key.isNotBlank()) {
             try {
-                onStatus("Читаю почерк через Claude…")
-                return OcrResult(CloudOcr.recognize(key, bitmap), "Claude", null)
+                onStatus("Отправляю фото в OpenAI…")
+                return OcrResult(OpenAiOcr.recognize(key, bitmap), "OpenAI", null)
             } catch (e: Exception) {
                 warning = "Облако недоступно (${e.message}). Использовано локальное распознавание."
             }

@@ -247,14 +247,14 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="10dp"
-                    android:text="Рукописный текст на фото намного точнее читает нейросеть Claude. Для этого нужен ваш ключ API с console.anthropic.com. Фото уходит на сервер Anthropic, запросы оплачиваются по тарифу API. Без ключа работает локальное распознавание, но почерк оно читает плохо."
+                    android:text="Рукописный текст на фото распознаёт OpenAI. Вставьте свой ключ API с platform.openai.com. Фото отправляется в OpenAI для распознавания; использование API оплачивается отдельно. Без ключа работает локальное распознавание, но почерк оно читает хуже."
                     android:textColor="@color/grey_text"
                     android:textSize="13sp" />
 
                 <EditText
                     android:id="@+id/keyInput"
                     style="@style/Field"
-                    android:hint="Ключ API (sk-ant-…)"
+                    android:hint="Ключ OpenAI API (sk-…)"
                     android:inputType="textPassword"
                     android:maxLines="1" />
 

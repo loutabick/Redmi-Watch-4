@@ -232,7 +232,7 @@ class MainActivity : Activity() {
                 runOnUiThread {
                     if (result.text.isBlank()) {
                         status.text = "Текст разобрать не удалось. " +
-                            "Почерк лучше читает Claude (вкладка «Настройки») или кнопка «Рукопись». " +
+                            "Почерк лучше читает OpenAI (вкладка «Настройки») или кнопка «Рукопись». " +
                             (result.warning ?: "")
                     } else {
                         if (titleInput.text.isBlank()) titleInput.setText("Фото")
@@ -311,7 +311,7 @@ class MainActivity : Activity() {
         keyStatus.text = if (Prefs.apiKey(this).isBlank())
             "Облачное распознавание выключено. Используется локальное."
         else
-            "Облачное распознавание включено (Claude)."
+            "Облачное распознавание включено (OpenAI)."
     }
 
     companion object {
