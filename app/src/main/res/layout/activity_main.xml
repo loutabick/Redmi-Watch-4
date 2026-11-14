@@ -79,42 +79,42 @@
                     android:inputType="textCapSentences"
                     android:maxLines="1" />
 
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
+                <TextView
+                    style="@style/Section"
                     android:layout_marginTop="22dp"
-                    android:gravity="center_vertical"
-                    android:orientation="horizontal">
+                    android:text="СООБЩЕНИЕ" />
 
-                    <TextView
-                        style="@style/Section"
-                        android:layout_width="0dp"
-                        android:layout_marginTop="0dp"
-                        android:layout_marginBottom="8dp"
-                        android:layout_weight="1"
-                        android:text="СООБЩЕНИЕ" />
+                <FrameLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <EditText
+                        android:id="@+id/messageInput"
+                        style="@style/Field"
+                        android:gravity="top"
+                        android:hint="Введите текст"
+                        android:inputType="textMultiLine|textCapSentences"
+                        android:minLines="6"
+                        android:paddingRight="58dp" />
 
                     <Button
                         android:id="@+id/clearMessageButton"
-                        android:layout_width="40dp"
-                        android:layout_height="40dp"
-                        android:background="?attr/appSurface"
+                        android:layout_width="36dp"
+                        android:layout_height="36dp"
+                        android:layout_gravity="top|end"
+                        android:layout_marginTop="8dp"
+                        android:layout_marginRight="8dp"
+                        android:background="@drawable/bg_clear_button"
+                        android:contentDescription="Очистить сообщение"
+                        android:gravity="center"
                         android:minWidth="0dp"
                         android:minHeight="0dp"
                         android:padding="0dp"
-                        android:contentDescription="Очистить сообщение"
+                        android:stateListAnimator="@null"
                         android:text="×"
                         android:textColor="?attr/appText"
-                        android:textSize="26sp" />
-                </LinearLayout>
-
-                <EditText
-                    android:id="@+id/messageInput"
-                    style="@style/Field"
-                    android:gravity="top"
-                    android:hint="Введите текст"
-                    android:inputType="textMultiLine|textCapSentences"
-                    android:minLines="6" />
+                        android:textSize="23sp" />
+                </FrameLayout>
 
                 <Button
                     android:id="@+id/sendButton"
