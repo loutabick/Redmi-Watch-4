@@ -2,7 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/white"
+    android:background="?attr/appBackground"
     android:orientation="vertical"
     android:paddingLeft="20dp"
     android:paddingTop="16dp"
@@ -13,7 +13,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Рукопись"
-        android:textColor="@color/black"
+        android:textColor="?attr/appText"
         android:textSize="32sp"
         android:textStyle="bold" />
 
@@ -21,7 +21,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Пишите пальцем или стилусом по одной строке"
-        android:textColor="@color/grey_text"
+        android:textColor="?attr/appSecondaryText"
         android:textSize="14sp" />
 
     <LinearLayout
@@ -81,7 +81,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
-        android:textColor="@color/grey_text"
+        android:textColor="?attr/appSecondaryText"
         android:textSize="13sp" />
 
     <EditText

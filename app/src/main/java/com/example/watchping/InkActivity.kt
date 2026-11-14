@@ -29,6 +29,7 @@ class InkActivity : Activity() {
     private var langTag = ""
 
     override fun onCreate(savedInstanceState: Bundle?) {
+        setTheme(if (getSharedPreferences("entertext", MODE_PRIVATE).getString("theme", "light") == "dark") R.style.AppTheme_Dark else R.style.AppTheme)
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_ink)
 
@@ -51,12 +52,18 @@ class InkActivity : Activity() {
         setLanguage("ru")
     }
 
+    private fun themeColor(attr: Int): Int {
+        val value = android.util.TypedValue()
+        theme.resolveAttribute(attr, value, true)
+        return value.data
+    }
+
     private fun styleTabs() {
         val ruOn = langTag == "ru"
         langRu.setBackgroundResource(if (ruOn) R.drawable.bg_tab_on else R.drawable.bg_tab_off)
-        langRu.setTextColor(if (ruOn) Color.WHITE else Color.BLACK)
+        langRu.setTextColor(if (ruOn) themeColor(R.attr.appOnAccent) else themeColor(R.attr.appText))
         langEn.setBackgroundResource(if (ruOn) R.drawable.bg_tab_off else R.drawable.bg_tab_on)
-        langEn.setTextColor(if (ruOn) Color.BLACK else Color.WHITE)
+        langEn.setTextColor(if (ruOn) themeColor(R.attr.appText) else themeColor(R.attr.appOnAccent))
     }
 
     private fun setLanguage(tag: String) {

@@ -11,6 +11,7 @@ object Prefs {
     private const val FILE = "entertext"
     private const val KEY_CHUNK = "chunk"
     private const val KEY_API = "api_key"
+    private const val KEY_THEME = "theme"
     private const val KEY_HISTORY = "history"
     private const val HISTORY_LIMIT = 300
 
@@ -28,6 +29,12 @@ object Prefs {
     }
 
     fun apiKey(ctx: Context): String = sp(ctx).getString(KEY_API, "") ?: ""
+
+    fun theme(ctx: Context): String = sp(ctx).getString(KEY_THEME, "light") ?: "light"
+
+    fun setTheme(ctx: Context, value: String) {
+        sp(ctx).edit().putString(KEY_THEME, if (value == "dark") "dark" else "light").apply()
+    }
 
     fun setApiKey(ctx: Context, value: String) {
         sp(ctx).edit().putString(KEY_API, value.trim()).apply()

@@ -13,20 +13,23 @@ import kotlin.math.max
 object OpenAiOcr {
     private const val ENDPOINT = "https://api.openai.com/v1/chat/completions"
     private const val MODEL = "gpt-4.1-mini"
-    private const val MAX_SIDE = 1800
+    private const val MAX_SIDE = 2400
 
     private const val PROMPT =
-        "На изображении рукописный текст (русский и/или английский). " +
-            "Перепиши его точно так, как написано, сохраняя переносы строк. " +
-            "Не исправляй ошибки, не переводи и не добавляй комментарии. " +
-            "Если слово совсем невозможно разобрать, напиши [?]. " +
-            "Если на изображении нет текста, верни пустой ответ. " +
-            "Выведи только расшифровку."
+        "Ты — специалист по точной расшифровке рукописных документов. " +
+            "Внимательно изучи всё изображение целиком, включая края, поля, верхнюю и нижнюю части. " +
+            "Определи язык по содержимому (в первую очередь русский и английский). " +
+            "Перепиши весь видимый текст дословно, сохраняя порядок, абзацы, списки и переносы строк. " +
+            "Не пересказывай, не исправляй грамматику и орфографию, не переводи и не дополняй текст. " +
+            "Учитывай связное рукописное письмо, сокращения, цифры, даты и знаки препинания. " +
+            "Если символ или слово невозможно уверенно прочитать, используй [?] только на этом месте. " +
+            "Не пропускай фрагменты, даже если почерк неровный или текст расположен под углом. " +
+            "Если текста нет, верни пустой ответ. Выведи только расшифровку без пояснений."
 
     fun recognize(apiKey: String, bitmap: Bitmap): String {
         val scaled = scale(bitmap)
         val jpeg = ByteArrayOutputStream().also {
-            scaled.compress(Bitmap.CompressFormat.JPEG, 88, it)
+            scaled.compress(Bitmap.CompressFormat.JPEG, 95, it)
         }.toByteArray()
         val b64 = Base64.encodeToString(jpeg, Base64.NO_WRAP)
 
@@ -45,7 +48,8 @@ object OpenAiOcr {
 
         val body = JSONObject()
             .put("model", MODEL)
-            .put("max_tokens", 2048)
+            .put("max_tokens", 4096)
+            .put("temperature", 0)
             .put("messages", JSONArray().put(JSONObject().put("role", "user").put("content", content)))
 
         val conn = URL(ENDPOINT).openConnection() as HttpURLConnection

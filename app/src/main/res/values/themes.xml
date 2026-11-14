@@ -1,22 +1,56 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <attr name="appBackground" format="color" />
+    <attr name="appText" format="color" />
+    <attr name="appSecondaryText" format="color" />
+    <attr name="appSurface" format="color" />
+    <attr name="appStroke" format="color" />
+    <attr name="appAccent" format="color" />
+    <attr name="appOnAccent" format="color" />
 
     <style name="AppTheme" parent="android:Theme.Material.Light.NoActionBar">
-        <item name="android:windowBackground">@color/white</item>
-        <item name="android:statusBarColor">@color/white</item>
-        <item name="android:navigationBarColor">@color/white</item>
+        <item name="appBackground">#FFFFFF</item>
+        <item name="appText">#000000</item>
+        <item name="appSecondaryText">#707070</item>
+        <item name="appSurface">#F2F2F2</item>
+        <item name="appStroke">#000000</item>
+        <item name="appAccent">#000000</item>
+        <item name="appOnAccent">#FFFFFF</item>
+        <item name="android:windowBackground">#FFFFFF</item>
+        <item name="android:statusBarColor">#FFFFFF</item>
+        <item name="android:navigationBarColor">#FFFFFF</item>
         <item name="android:windowLightStatusBar">true</item>
         <item name="android:windowLightNavigationBar">true</item>
         <item name="android:forceDarkAllowed">false</item>
         <item name="android:colorAccent">@color/black</item>
         <item name="android:colorControlActivated">@color/black</item>
         <item name="android:textColorPrimary">@color/black</item>
-        <item name="android:textColorHint">@color/grey_text</item>
+        <item name="android:textColorHint">?attr/appSecondaryText</item>
+    </style>
+
+    <style name="AppTheme.Dark" parent="android:Theme.Material.NoActionBar">
+        <item name="appBackground">#121212</item>
+        <item name="appText">#F5F5F5</item>
+        <item name="appSecondaryText">#AAAAAA</item>
+        <item name="appSurface">#242424</item>
+        <item name="appStroke">#777777</item>
+        <item name="appAccent">#F5F5F5</item>
+        <item name="appOnAccent">#121212</item>
+        <item name="android:windowBackground">#121212</item>
+        <item name="android:statusBarColor">#121212</item>
+        <item name="android:navigationBarColor">#121212</item>
+        <item name="android:windowLightStatusBar">false</item>
+        <item name="android:windowLightNavigationBar">false</item>
+        <item name="android:forceDarkAllowed">false</item>
+        <item name="android:colorAccent">#FFFFFF</item>
+        <item name="android:colorControlActivated">#FFFFFF</item>
+        <item name="android:textColorPrimary">#F5F5F5</item>
+        <item name="android:textColorHint">#AAAAAA</item>
     </style>
 
     <style name="BtnPrimary" parent="android:Widget.Material.Button">
         <item name="android:background">@drawable/bg_btn_primary</item>
-        <item name="android:textColor">@color/white</item>
+        <item name="android:textColor">?attr/appOnAccent</item>
         <item name="android:textAllCaps">false</item>
         <item name="android:textSize">16sp</item>
         <item name="android:textStyle">bold</item>
@@ -26,7 +60,7 @@
 
     <style name="BtnSecondary" parent="android:Widget.Material.Button">
         <item name="android:background">@drawable/bg_btn_secondary</item>
-        <item name="android:textColor">@color/black</item>
+        <item name="android:textColor">?attr/appText</item>
         <item name="android:textAllCaps">false</item>
         <item name="android:textSize">16sp</item>
         <item name="android:textStyle">bold</item>
@@ -42,7 +76,7 @@
         <item name="android:textSize">12sp</item>
         <item name="android:textStyle">bold</item>
         <item name="android:letterSpacing">0.08</item>
-        <item name="android:textColor">@color/grey_text</item>
+        <item name="android:textColor">?attr/appSecondaryText</item>
     </style>
 
     <style name="Field">
@@ -51,8 +85,8 @@
         <item name="android:background">@drawable/bg_input</item>
         <item name="android:padding">16dp</item>
         <item name="android:textSize">16sp</item>
-        <item name="android:textColor">@color/black</item>
-        <item name="android:textColorHint">@color/grey_text</item>
+        <item name="android:textColor">?attr/appText</item>
+        <item name="android:textColorHint">?attr/appSecondaryText</item>
     </style>
 
     <style name="Tab">
@@ -63,6 +97,6 @@
         <item name="android:textSize">14sp</item>
         <item name="android:textStyle">bold</item>
         <item name="android:background">@drawable/bg_tab_off</item>
-        <item name="android:textColor">@color/black</item>
+        <item name="android:textColor">?attr/appText</item>
     </style>
 </resources>

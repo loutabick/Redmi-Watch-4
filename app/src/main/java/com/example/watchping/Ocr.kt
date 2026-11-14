@@ -28,20 +28,18 @@ object Ocr {
         }
     }
 
-    /** Вызывать из фонового потока. Сначала облако (если есть ключ), иначе локально. */
+    /** Вызывать из фонового потока. Фото обрабатывается OpenAI; без ключа показывается понятная ошибка. */
     fun recognize(ctx: Context, bitmap: Bitmap, onStatus: (String) -> Unit): OcrResult {
         val key = Prefs.apiKey(ctx)
-        var warning: String? = null
-        if (key.isNotBlank()) {
-            try {
-                onStatus("Отправляю фото в OpenAI…")
-                return OcrResult(OpenAiOcr.recognize(key, bitmap), "OpenAI", null)
-            } catch (e: Exception) {
-                warning = "Облако недоступно (${e.message}). Использовано локальное распознавание."
-            }
+        if (key.isBlank()) {
+            throw IllegalStateException("Сначала добавьте OpenAI API-ключ во вкладке «Настройки»")
         }
-        val text = recognizeLocal(ctx, bitmap, onStatus)
-        return OcrResult(text, "Tesseract", warning)
+        onStatus("Отправляю фотографию в OpenAI для распознавания…")
+        return try {
+            OcrResult(OpenAiOcr.recognize(key, bitmap), "OpenAI", null)
+        } catch (e: Exception) {
+            throw IllegalStateException("OpenAI не смог обработать фото: ${e.message}", e)
+        }
     }
 
     // ---------- локальное распознавание (Tesseract) ----------

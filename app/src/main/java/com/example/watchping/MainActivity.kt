@@ -36,11 +36,14 @@ class MainActivity : Activity() {
     private lateinit var chunkSeek: SeekBar
     private lateinit var keyInput: EditText
     private lateinit var keyStatus: TextView
+    private lateinit var themeLight: android.widget.RadioButton
+    private lateinit var themeDark: android.widget.RadioButton
     private lateinit var pages: List<View>
     private lateinit var tabs: List<TextView>
     private lateinit var adapter: HistoryAdapter
 
     override fun onCreate(savedInstanceState: Bundle?) {
+        setTheme(if (getSharedPreferences("entertext", MODE_PRIVATE).getString("theme", "light") == "dark") R.style.AppTheme_Dark else R.style.AppTheme)
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
@@ -54,6 +57,8 @@ class MainActivity : Activity() {
         chunkSeek = findViewById(R.id.chunkSeek)
         keyInput = findViewById(R.id.keyInput)
         keyStatus = findViewById(R.id.keyStatus)
+        themeLight = findViewById(R.id.themeLight)
+        themeDark = findViewById(R.id.themeDark)
 
         pages = listOf(
             findViewById(R.id.pageSend),
@@ -74,6 +79,13 @@ class MainActivity : Activity() {
 
         // Отправка
         findViewById<Button>(R.id.sendButton).setOnClickListener { sendText() }
+        findViewById<Button>(R.id.clearMessageButton).setOnClickListener {
+            messageInput.text.clear()
+            titleInput.text.clear()
+            preview.setImageDrawable(null)
+            preview.visibility = View.GONE
+            status.text = "Сообщение очищено"
+        }
         findViewById<Button>(R.id.pickButton).setOnClickListener { pickImage() }
         findViewById<Button>(R.id.inkButton).setOnClickListener {
             @Suppress("DEPRECATION")
@@ -120,6 +132,22 @@ class MainActivity : Activity() {
                 Toast.LENGTH_LONG
             ).show()
         }
+        when (Prefs.theme(this)) {
+            "dark" -> themeDark.isChecked = true
+            else -> themeLight.isChecked = true
+        }
+        val themeListener = android.widget.CompoundButton.OnCheckedChangeListener { button, checked ->
+            if (checked) {
+                val chosen = if (button.id == R.id.themeDark) "dark" else "light"
+                if (Prefs.theme(this) != chosen) {
+                    Prefs.setTheme(this, chosen)
+                    recreate()
+                }
+            }
+        }
+        themeLight.setOnCheckedChangeListener(themeListener)
+        themeDark.setOnCheckedChangeListener(themeListener)
+
         keyInput.setText(Prefs.apiKey(this))
         updateKeyStatus()
         findViewById<Button>(R.id.saveKeyButton).setOnClickListener {
@@ -149,12 +177,18 @@ class MainActivity : Activity() {
         tabs.forEachIndexed { i, t ->
             val on = i == index
             t.setBackgroundResource(if (on) R.drawable.bg_tab_on else R.drawable.bg_tab_off)
-            t.setTextColor(if (on) Color.WHITE else Color.BLACK)
+            t.setTextColor(if (on) themeColor(com.example.watchping.R.attr.appOnAccent) else themeColor(com.example.watchping.R.attr.appText))
         }
         if (index == 1) refreshHistory()
     }
 
     // ---------- отправка ----------
+
+    private fun themeColor(attr: Int): Int {
+        val value = android.util.TypedValue()
+        theme.resolveAttribute(attr, value, true)
+        return value.data
+    }
 
     private fun ensurePermission(): Boolean {
         if (Notifier.hasPermission(this)) return true
@@ -220,7 +254,7 @@ class MainActivity : Activity() {
     }
 
     private fun processImage(uri: Uri) {
-        status.text = "Загружаю фото…"
+        status.text = if (Prefs.apiKey(this).isNotBlank()) "Фото выбрано. Отправляю в OpenAI…" else "Фото выбрано. Для распознавания OpenAI добавьте API-ключ в Настройках…"
         thread {
             try {
                 val bitmap = Ocr.loadBitmap(this, uri)
@@ -231,13 +265,11 @@ class MainActivity : Activity() {
                 val result = Ocr.recognize(this, bitmap) { msg -> runOnUiThread { status.text = msg } }
                 runOnUiThread {
                     if (result.text.isBlank()) {
-                        status.text = "Текст разобрать не удалось. " +
-                            "Почерк лучше читает OpenAI (вкладка «Настройки») или кнопка «Рукопись». " +
-                            (result.warning ?: "")
+                        status.text = "OpenAI не обнаружил читаемый текст. Попробуйте фото крупнее, ровнее и при хорошем освещении."
                     } else {
                         if (titleInput.text.isBlank()) titleInput.setText("Фото")
                         messageInput.setText(result.text)
-                        status.text = "Распознано (${result.engine}). Проверьте текст и отправьте." +
+                        status.text = "Распознано нейросетью (${result.engine}). Проверьте текст и отправьте." +
                             (result.warning?.let { "\n$it" } ?: "")
                     }
                 }
